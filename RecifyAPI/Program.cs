@@ -1,5 +1,6 @@
 
 using DAL.Data;
+using DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace RecifyAPI
@@ -14,12 +15,27 @@ namespace RecifyAPI
 
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    name: "AllowOrigin",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
             builder.Services.AddDbContext<RecifyDbContext>(options =>
                 options.UseSqlServer(builder.Configuration["ConnectionStrings:MsSqlServer"]));
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+
+
+
 
             var app = builder.Build();
 
