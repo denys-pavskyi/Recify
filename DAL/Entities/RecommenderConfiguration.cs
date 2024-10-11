@@ -3,17 +3,15 @@ using DAL.Entities.Enums;
 
 namespace DAL.Entities;
 
-public class UploadedCSV: BaseEntity
+public class RecommenderConfiguration: BaseEntity
 {
     public Guid ClientId { get; set; }
 
     [ForeignKey(nameof(ClientId))]
     public Client? Client { get; set; }
-
-    public string FileName { get; set; } = string.Empty;
-    public string FilePath { get; set; } = string.Empty;
-    public DateTime UploadDate { get; set; } = DateTime.Now;
-    public CsvStatus Status { get; set; } = CsvStatus.Pending;
+    public RecommenderAlgorithmType AlgorithmType { get; set; }
+    public DataSourceType DataSourceType { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public ICollection<RecommenderToUploadedCSVs> RecommenderToUploadedCSVs { get; set; }
 }

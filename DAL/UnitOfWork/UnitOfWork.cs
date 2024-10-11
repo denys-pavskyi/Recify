@@ -10,6 +10,8 @@ public class UnitOfWork: IUnitOfWork
     private ClientRepository? _clientRepository;
     private LinkedDatabaseRepository? _linkedDatabaseRepository;
     private UploadedCsvRepository? _uploadedCsvRepository;
+    private RecommenderConfigurationRepository? _recommenderConfigurationRepository;
+    private RecommenderToUploadedCsvRepository? _recommenderToUploadedCsvRepository;
 
     public UnitOfWork(RecifyDbContext context)
     {
@@ -48,6 +50,30 @@ public class UnitOfWork: IUnitOfWork
                 _uploadedCsvRepository = new UploadedCsvRepository(_dbContext);
             }
             return _uploadedCsvRepository;
+        }
+    }
+
+    public IRecommenderConfigurationRepository RecommenderConfigurationRepository
+    {
+        get
+        {
+            if (_recommenderConfigurationRepository is null)
+            {
+                _recommenderConfigurationRepository = new RecommenderConfigurationRepository(_dbContext);
+            }
+            return _recommenderConfigurationRepository;
+        }
+    }
+
+    public IRecommenderToUploadedCsvRepository RecommenderToUploadedCsvRepository
+    {
+        get
+        {
+            if (_recommenderToUploadedCsvRepository is null)
+            {
+                _recommenderToUploadedCsvRepository = new RecommenderToUploadedCsvRepository(_dbContext);
+            }
+            return _recommenderToUploadedCsvRepository;
         }
     }
 

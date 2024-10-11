@@ -6,7 +6,5 @@ public enum DatabaseType
     MySql,      // MySQL database
     PostgreSql, // PostgreSQL database
     SqlServer,  // Microsoft SQL Server
-    Oracle,     // Oracle database
-    MongoDb,    // MongoDB
     Other       // Any other database type
 }
