@@ -1,4 +1,7 @@
 
+using DAL.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace RecifyAPI
 {
     public class Program
@@ -10,6 +13,10 @@ namespace RecifyAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<RecifyDbContext>(options =>
+                options.UseSqlServer(builder.Configuration["ConnectionStrings:MsSqlServer"]));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
