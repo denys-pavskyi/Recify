@@ -1,4 +1,8 @@
 
+using AutoMapper;
+using BLL.Interfaces;
+using BLL.Services;
+using BLL.Validation;
 using DAL.Data;
 using DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +38,18 @@ namespace RecifyAPI
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AutomapperProfile());
+            });
+            builder.Services.AddSingleton(mapperConfiguration.CreateMapper());
 
+
+            builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IUploadCsvService, UploadCsvService>();
+            builder.Services.AddScoped<ILinkedDatabaseService, LinkedDatabaseService>();
+            builder.Services.AddScoped<IRecommenderConfigurationService, RecommenderConfigurationService>();
+            builder.Services.AddScoped<IRecommenderToUploadedCsvService, RecommenderToUploadedCsvService>();
 
 
             var app = builder.Build();
