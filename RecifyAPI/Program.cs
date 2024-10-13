@@ -25,13 +25,13 @@ namespace RecifyAPI
                     name: "AllowOrigin",
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader());
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:4200"));
             });
 
             builder.Services.AddDbContext<RecifyDbContext>(options =>
                 options.UseSqlServer(builder.Configuration["ConnectionStrings:MsSqlServer"]));
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -60,11 +60,14 @@ namespace RecifyAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseCors("AllowOrigin");
 
             app.MapControllers();
 

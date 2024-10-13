@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using BLL.Helpers;
 using BLL.Interfaces;
 using BLL.RequestModels;
@@ -29,7 +30,8 @@ public class ClientService: IClientService
         {
             return new ErrorResponse
             {
-                Message = "User was not found"
+                Message = "User was not found",
+                HttpCode = HttpStatusCode.NotFound
             };
         }
 
@@ -37,7 +39,8 @@ public class ClientService: IClientService
         {
             return new ErrorResponse
             {
-                Message = "Invalid password"
+                Message = "Invalid password",
+                HttpCode = HttpStatusCode.BadRequest
             };
         }
 
