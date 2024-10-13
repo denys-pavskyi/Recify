@@ -1,7 +1,11 @@
-<nav>
-    <ul>
+<nav class="navbar">
+    <ul class="nav-links">
       <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/upload-csv">Upload CSV</a></li>
-      <li><a routerLink="/recommender-settings">Recommender Settings</a></li>
+      <li *ngIf="isLoggedIn"><a routerLink="/upload-csv">Upload CSV</a></li>
+      <li *ngIf="isLoggedIn"><a routerLink="/recommender-settings">Recommender Settings</a></li>
     </ul>
-</nav>
+    <div class="client-info">
+      <span *ngIf="isLoggedIn">Welcome, {{ clientName }}</span>
+      <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+    </div>
+  </nav>

@@ -1,0 +1,45 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4A90E2; // Example color
+    padding: 1rem 2rem;
+    color: white;
+  
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+  
+      a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  
+    .user-info {
+      display: flex;
+      align-items: center;
+  
+      span {
+        margin-right: 1rem;
+      }
+  
+      button {
+        background-color: #D9534F;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #C9302C;
+        }
+      }
+    }
+  }
