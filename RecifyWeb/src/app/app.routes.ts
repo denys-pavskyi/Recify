@@ -4,13 +4,14 @@ import { HomeComponent } from './components/home/home.component';
 import { CsvUploadComponent } from './components/csv-upload/csv-upload.component';
 import { RecommenderSettingsComponent } from './components/recommender-settings/recommender-settings.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'upload-csv', component: CsvUploadComponent },
-  { path: 'recommender-settings', component: RecommenderSettingsComponent },
+  { path: 'upload-csv', component: CsvUploadComponent, canActivate: [AuthGuard] },
+  { path: 'recommender-settings', component: RecommenderSettingsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login' }
 ];
 

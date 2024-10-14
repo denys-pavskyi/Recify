@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { tap, catchError } from 'rxjs/operators';
 import { ErrorResponse } from '../../models/errorResponse';
 import Swal from 'sweetalert2';
+import { isLocalStorageAvailable } from '../../utils/storage.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,20 @@ export class AuthService {
   private clientSubject = new BehaviorSubject<Client | null>(null);
   client$ = this.clientSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    if (isLocalStorageAvailable()) {
+      const storedClient = localStorage.getItem('client');
+      if (storedClient) {
+        this.clientSubject.next(JSON.parse(storedClient)); // Restore client from local storage
+      }
+    }
+  }
 
   login(loginModel: { email: string; password: string }): Observable<Client> {
     return this.http.post<Client>(`${this.apiUrl}/Client/signIn`, loginModel).pipe(
       tap(client => {
         this.clientSubject.next(client);
+        localStorage.setItem('client', JSON.stringify(client));
       }),
       catchError((error: HttpErrorResponse) => {
         const errorResponse: ErrorResponse = {
@@ -42,6 +51,7 @@ export class AuthService {
 
   logout() {
     this.clientSubject.next(null);
+    localStorage.removeItem('client');
     this.router.navigate(['/']);
   }
 }
