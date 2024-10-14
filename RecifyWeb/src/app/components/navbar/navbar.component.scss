@@ -22,7 +22,7 @@
       }
     }
   
-    .user-info {
+    .client-info {
       display: flex;
       align-items: center;
   
@@ -36,6 +36,7 @@
         border: none;
         padding: 0.5rem 1rem;
         cursor: pointer;
+        margin-left: 1rem;
   
         &:hover {
           background-color: #C9302C;

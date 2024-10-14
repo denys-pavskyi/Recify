@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { AlertComponent } from './components/alerts/alerts.component';
 
 @Component({
@@ -10,7 +10,8 @@ import { AlertComponent } from './components/alerts/alerts.component';
   imports: [
     RouterOutlet,
     NavbarComponent,
-    AlertComponent
+    AlertComponent,
+    RouterModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

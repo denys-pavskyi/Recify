@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { Client } from '../../models/client';
 import { CommonModule } from '@angular/common';  
-import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
@@ -20,7 +21,7 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService) {
     this.authService.client$.subscribe(client => {
-      this.clientName = client?.firstName || null; // Assuming client has a firstName property
+      this.clientName = client?.username || null;
       this.isLoggedIn = !!client;
     });
   }
