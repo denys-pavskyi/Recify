@@ -9,5 +9,4 @@ public interface IUnitOfWork
     IUploadedCsvRepository UploadedCsvRepository { get; }
     IRecommenderConfigurationRepository RecommenderConfigurationRepository { get; }
     IRecommenderToUploadedCsvRepository RecommenderToUploadedCsvRepository { get; }
-    Task SaveAsync();
 }

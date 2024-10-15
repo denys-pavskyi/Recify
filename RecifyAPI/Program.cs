@@ -1,4 +1,8 @@
 
+using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
+using Amazon.S3;
 using AutoMapper;
 using BLL.Interfaces;
 using BLL.Services;
@@ -44,6 +48,15 @@ namespace RecifyAPI
             });
             builder.Services.AddSingleton(mapperConfiguration.CreateMapper());
 
+            var accessKey = builder.Configuration["AWS:AccessKey"];
+            var secretKey = builder.Configuration["AWS:SecretKey"];
+            AWSOptions awsOptions = new AWSOptions
+            {
+                Credentials = new BasicAWSCredentials(accessKey, secretKey),
+                Region = RegionEndpoint.EUCentral1
+            };
+            builder.Services.AddDefaultAWSOptions(awsOptions);
+            builder.Services.AddAWSService<IAmazonS3>();
 
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<IUploadCsvService, UploadCsvService>();
