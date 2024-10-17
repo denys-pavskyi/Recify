@@ -1,6 +1,5 @@
 <nav class="navbar">
     <ul class="nav-links">
-      <li><a routerLink="/home">Home</a></li>
       <li *ngIf="isLoggedIn"><a routerLink="/upload-csv">Upload CSV</a></li>
       <li *ngIf="isLoggedIn"><a routerLink="/recommender-settings">Recommender Settings</a></li>
     </ul>

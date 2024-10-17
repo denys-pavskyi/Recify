@@ -1,5 +1,5 @@
 export class Client {
-    id?: number;
+    id?: string;
     email: string;
     username: string;
     passwordHash: string;
@@ -12,7 +12,7 @@ export class Client {
         passwordHash: string,
         firstName: string,
         lastName?: string,
-        id?: number
+        id?: string
     ) {
         this.email = email;
         this.username = username;

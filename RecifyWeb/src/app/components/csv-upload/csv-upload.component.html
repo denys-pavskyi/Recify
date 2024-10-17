@@ -1,1 +1,15 @@
-<p>csv-upload works!</p>
+<div class="upload-csv-container">
+    <h2>Upload CSV File</h2>
+  
+    <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+    <button (click)="uploadCsv()" [disabled]="!selectedFile">Upload CSV</button>
+  
+    <h3>Uploaded Files</h3>
+    <ul class="uploaded-files-list">
+      <li *ngFor="let file of uploadedFiles">
+        <span>{{ file.fileName }}</span>
+        <span>{{ file.uploadDate | date:'short' }}</span>
+        <button class="delete-button" (click)="deleteCsv(file.id)">❌</button>
+      </li>
+    </ul>
+  </div>

@@ -26,6 +26,11 @@ export class AuthService {
     }
   }
 
+  get clientId(): string | undefined {
+    const client = this.clientSubject.value;
+    return client ? client.id : ' ';
+  }
+
   login(loginModel: { email: string; password: string }): Observable<Client> {
     return this.http.post<Client>(`${this.apiUrl}/Client/signIn`, loginModel).pipe(
       tap(client => {
