@@ -19,6 +19,11 @@ public class AutomapperProfile : Profile
             .ForMember(ucm => ucm.RecommenderToUploadedCsvIds, uc => uc.MapFrom(x => x.RecommenderToUploadedCSVs.Select(x => x.Id.ToString())));
 
 
+        CreateMap<RecommenderConfiguration, RecommenderConfigurationModel>()
+            .ForMember(rcm => rcm.RecommenderToUploadedCsvIds, rc => rc.MapFrom(x => x.RecommenderToUploadedCSVs.Select(x => x.Id.ToString())));
+
+        CreateMap<RecommenderConfigurationModel, RecommenderConfiguration>();
+
     }
 
 }

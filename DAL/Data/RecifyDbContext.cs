@@ -32,5 +32,11 @@ public class RecifyDbContext: DbContext
             .WithMany(u => u.RecommenderToUploadedCSVs)
             .HasForeignKey(r => r.UploadedCsvId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<UploadedCSV>()
+            .HasMany(r => r.RecommenderToUploadedCSVs)
+            .WithOne(u => u.UploadedCsv)
+            .HasForeignKey(r => r.UploadedCsvId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
