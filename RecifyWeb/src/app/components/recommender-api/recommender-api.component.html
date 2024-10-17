@@ -1,0 +1,24 @@
+<div class="recommender-api-container">
+    <h2>Recommender System API</h2>
+  
+    <div class="form-group">
+      <label for="recommenderSelect">Select Recommender System:</label>
+      <select id="recommenderSelect">
+        <option *ngFor="let recommender of recommenders" [value]="recommender.id">
+          {{ recommender.fileName }}
+        </option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="apiLink">API Link:</label>
+      <input
+        type="text"
+        id="apiLink"
+        placeholder="API link will be displayed here"
+        readonly
+      />
+    </div>
+  
+    <button class="fetch-button" (click)="fetchApiLink()">Fetch API Link</button>
+  </div>

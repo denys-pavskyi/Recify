@@ -1,1 +1,16 @@
-<p>recommender-settings works!</p>
+<div class="recommender-settings-container">
+    <h2>Recommender Systems</h2>
+  
+    <button class="create-button" (click)="createRecommenderSystem()">Create Recommender System</button>
+  
+    <h3>Existing Recommender Systems</h3>
+    <ul class="recommender-list">
+      <li *ngFor="let system of recommenderSystems">
+        <div class="recommender-item">
+          <span>*FILE_NAME* - *DATE*</span>
+          <span>Status: {{ system.status }}</span>
+          <button class="delete-button" (click)="deleteRecommenderSystem(system.id)">❌</button>
+        </div>
+      </li>
+    </ul>
+  </div>

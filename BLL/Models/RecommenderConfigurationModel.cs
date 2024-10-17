@@ -6,7 +6,6 @@ namespace BLL.Models;
 
 public class RecommenderConfigurationModel
 {
-    public string Id { get; set; }
     public string ClientId { get; set; }
     public RecommenderAlgorithmType AlgorithmType { get; set; }
     public DataSourceType DataSourceType { get; set; }

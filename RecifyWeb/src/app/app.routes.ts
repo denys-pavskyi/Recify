@@ -5,13 +5,16 @@ import { CsvUploadComponent } from './components/csv-upload/csv-upload.component
 import { RecommenderSettingsComponent } from './components/recommender-settings/recommender-settings.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RecommenderTestingComponent } from './components/recommender-testing/recommender-testing.component';
+import { RecommenderApiComponent } from './components/recommender-api/recommender-api.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
   { path: 'upload-csv', component: CsvUploadComponent, canActivate: [AuthGuard] },
   { path: 'recommender-settings', component: RecommenderSettingsComponent, canActivate: [AuthGuard] },
+  { path: 'recommender-testing', component: RecommenderTestingComponent, canActivate: [AuthGuard] },
+  { path: 'recommender-api', component: RecommenderApiComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login' }
 ];
 
