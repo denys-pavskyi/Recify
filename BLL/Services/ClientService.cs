@@ -2,6 +2,7 @@
 using AutoMapper;
 using BLL.Helpers;
 using BLL.Interfaces;
+using BLL.Models;
 using BLL.RequestModels;
 using BLL.ResponseModels;
 using DAL.Entities;
@@ -22,7 +23,7 @@ public class ClientService: IClientService
     }
 
 
-    public async Task<OneOf<Client, ErrorResponse>> LoginAsync(LoginModel loginModel)
+    public async Task<OneOf<ClientModel, ErrorResponse>> LoginAsync(LoginModel loginModel)
     {
         var client = await _unitOfWork.ClientRepository.GetByEmailAsync(loginModel.Email);
 
@@ -44,6 +45,6 @@ public class ClientService: IClientService
             };
         }
 
-        return client;
+        return _mapper.Map<ClientModel>(client);
     }
 }

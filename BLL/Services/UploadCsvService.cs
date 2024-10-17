@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using DAL.Repositories;
 using Amazon.S3.Transfer;
 using Amazon.S3.Util;
+using Amazon.S3.Model;
+using BLL.Models;
 
 namespace BLL.Services;
 
@@ -70,6 +72,42 @@ public class UploadCsvService: IUploadCsvService
         await _unitOfWork.UploadedCsvRepository.AddUploadedCsvAsync(uploadedCsv);
 
         return new Success();
+    }
+
+    public async Task<IEnumerable<UploadedCsvModel>> GetUploadedCsvForClientAsync(string clientId)
+    {
+        var uploadedCSVs = await _unitOfWork.UploadedCsvRepository.GetUploadedCsvForClientAsync(clientId);
+
+        return _mapper.Map<List<UploadedCsvModel>>(uploadedCSVs);
+    }
+
+    public async Task<OneOf<Success, ErrorResponse>> RemoveUploadedCsvByIdAsync(string uploadedCsvId)
+    {
+        var uploadedCsv = await _unitOfWork.UploadedCsvRepository.GetUploadedCsvById(uploadedCsvId);
+
+        if (uploadedCsv is null)
+        {
+            return new ErrorResponse
+            {
+                Message = "Uploaded CSV with this id was not found",
+                HttpCode = HttpStatusCode.NotFound
+            };
+        }
+        await DeleteFileFromS3Async(uploadedCsv.FilePath);
+        await _unitOfWork.UploadedCsvRepository.RemoveUploadedCsvAsync(uploadedCsv);
+
+        return new Success();
+    }
+
+    private async Task DeleteFileFromS3Async(string filePath)
+    {
+        var deleteRequest = new DeleteObjectRequest
+        {
+            BucketName = _bucketName,
+            Key = filePath
+        };
+
+        await _s3Client.DeleteObjectAsync(deleteRequest);
     }
 
     private async Task<string> UploadFileToS3Async(IFormFile file, string folderName)

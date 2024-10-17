@@ -48,6 +48,24 @@ namespace RecifyAPI.Controllers
                 error => error.ToActionResult());
         }
 
+        [HttpGet("getUploadedFiles")]
+        [ValidateGuidParsable(nameof(clientId))]
+        public async Task<IActionResult> GetUploadedFiles(string clientId)
+        {
+            var response = await _uploadCsvService.GetUploadedCsvForClientAsync(clientId);
 
+            return Ok(response);
+        }
+
+        [HttpDelete("removeUploadedCsv")]
+
+        public async Task<IActionResult> RemoveUploadedCsv(string uploadedCsvId)
+        {
+            var response = await _uploadCsvService.RemoveUploadedCsvByIdAsync(uploadedCsvId);
+
+            return response.Match<ActionResult>(
+                _ => NoContent(),
+                error => error.ToActionResult());
+        }
     }
 }
