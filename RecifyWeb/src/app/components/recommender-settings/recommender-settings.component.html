@@ -1,16 +1,54 @@
 <div class="recommender-settings-container">
-    <h2>Recommender Systems</h2>
+  <h2>Recommender Systems</h2>
   
-    <button class="create-button" (click)="createRecommenderSystem()">Create Recommender System</button>
-  
-    <h3>Existing Recommender Systems</h3>
-    <ul class="recommender-list">
-      <li *ngFor="let system of recommenderSystems">
-        <div class="recommender-item">
-          <span>*FILE_NAME* - *DATE*</span>
-          <span>Status: {{ system.status }}</span>
-          <button class="delete-button" (click)="deleteRecommenderSystem(system.id)">❌</button>
-        </div>
-      </li>
-    </ul>
+  <div class="settings-form">
+      <h3>Create New Recommender System</h3>
+      
+      <div class="form-field">
+          <label>
+              Type:
+              <select [(ngModel)]="selectedType">
+                  <option *ngFor="let type of recommenderTypes" [value]="type">{{ type }}</option>
+              </select>
+          </label>
+      </div>
+
+      <div class="form-field">
+          <label>
+              Batch Size:
+              <input type="number" [(ngModel)]="batchSize" min="1">
+          </label>
+      </div>
+
+      <div class="form-field">
+          <label>
+              Epoch:
+              <input type="number" [(ngModel)]="epoch" min="1">
+          </label>
+      </div>
+
+      <div class="form-field">
+          <label>
+              Learning Rate:
+              <input type="number" [(ngModel)]="learningRate" step="0.001" min="0.001">
+          </label>
+      </div>
+
+      <button class="create-button" (click)="createRecommenderSystem()">Create Recommender System</button>
   </div>
+
+  <h3>Existing Recommender Systems</h3>
+  <ul class="recommender-list">
+    <li *ngFor="let system of recommenderSystems">
+      <div class="recommender-item">
+        <span>{{ system.fileName }} - {{ system.uploadDate | date:'short' }}</span>
+        <span>Status: {{ system.status }}</span>
+        <span>Type: {{ system.type }}</span>
+        <span>Batch Size: {{ system.batchSize }}</span>
+        <span>Epoch: {{ system.epoch }}</span>
+        <span>Learning Rate: {{ system.learningRate }}</span>
+        <button class="delete-button" (click)="deleteRecommenderSystem(system.id)">❌</button>
+      </div>
+    </li>
+  </ul>
+</div>

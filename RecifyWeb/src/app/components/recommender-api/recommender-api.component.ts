@@ -12,12 +12,13 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './recommender-api.component.html',
-  styleUrl: './recommender-api.component.scss'
+  styleUrls: ['./recommender-api.component.scss']
 })
 export class RecommenderApiComponent {
   recommenders: any[] = [];
   selectedRecommender: string = '';
   apiLink: string = '';
+  userId: string = ''; // Added for user ID input
 
   constructor() {}
 
@@ -27,14 +28,17 @@ export class RecommenderApiComponent {
 
   loadRecommenders() {
     this.recommenders = [
-      { id: '1', fileName: 'Recommender A' },
-      { id: '2', fileName: 'Recommender B' }
+      { id: 'ec458d1c-360c-406f-1336-08dcf34c6614', fileName: 'Recommender A' },
+      { id: 'bd759d3f-5db4-4b5c-bb71-2950edcdff20', fileName: 'Recommender B' }
     ];
   }
 
   fetchApiLink() {
-    // Placeholder for fetching the API link
-    console.log('Fetching API link for:', this.selectedRecommender);
-    this.apiLink = 'https://api.example.com/recommenders/' + this.selectedRecommender;
+    if (this.selectedRecommender && this.userId) {
+      this.apiLink = `https://localhost:44354/api/Recommender/getRecommendation?recommenderSystemId=${this.selectedRecommender}&userId=${this.userId}`;
+      console.log('Generated API link:', this.apiLink);
+    } else {
+      console.log('Please select a recommender system and enter a user ID.');
+    }
   }
 }

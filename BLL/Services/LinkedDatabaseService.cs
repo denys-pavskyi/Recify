@@ -12,6 +12,11 @@ using OneOf;
 using BLL.ResponseModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using CsvHelper;
+using System.Globalization;
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using Microsoft.AspNetCore.Http;
 
 namespace BLL.Services;
 
@@ -20,18 +25,22 @@ public class LinkedDatabaseService: ILinkedDatabaseService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IMongoClient _mongoClient;
+    private readonly IAmazonS3 _s3Client;
+    private readonly string _bucketName;
 
-    public LinkedDatabaseService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+    public LinkedDatabaseService(IUnitOfWork unitOfWork, IMapper mapper, IAmazonS3 s3Client, IConfiguration configuration)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _mongoClient = new MongoClient(configuration.GetConnectionString("MongoDb")); ;
+        _mongoClient = new MongoClient(configuration.GetConnectionString("MongoDb"));
+        _s3Client = s3Client;
+        _bucketName = configuration["AWS_S3:BucketName"];
     }
 
     public async Task CreateLinkedDatabaseAsync(string clientId, string jsonConfig)
     {
 
-        var config = Newtonsoft.Json.JsonConvert.DeserializeObject<DatabaseConfig>(jsonConfig);
+        var config = JsonConvert.DeserializeObject<DatabaseConfig>(jsonConfig);
         var mongoDatabaseName = $"Database_{clientId}";
 
 
@@ -48,6 +57,13 @@ public class LinkedDatabaseService: ILinkedDatabaseService
 
         await itemsCollection.InsertOneAsync(initialDocument);
         await itemsCollection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("placeholder", "initial"));
+
+        // Initialize Users collection
+        var usersCollection = mongoDatabase.GetCollection<BsonDocument>("Users");
+        var initialUsersDocument = new BsonDocument { { "initialized", true } };
+        await usersCollection.InsertOneAsync(initialUsersDocument);
+        await usersCollection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("_id", initialUsersDocument["_id"]));
+
 
         if (config.Tables.Views)
         {
@@ -193,7 +209,97 @@ public class LinkedDatabaseService: ILinkedDatabaseService
         return _mapper.Map<LinkedDatabaseModel>(linkedDatabase);
     }
 
+    //public async Task<OneOf<Success, ErrorResponse>> ExportCollectionToS3Async(string linkedDatabaseId, string collectionName, string bucketName)
+    //{
+    //    var linkedDatabase = await _unitOfWork.LinkedDatabaseRepository.GetByIdAsync(linkedDatabaseId);
 
+    //    if (linkedDatabase == null)
+    //    {
+    //        return new ErrorResponse
+    //        {
+    //            Message = "LinkedDatabase not found",
+    //            HttpCode = System.Net.HttpStatusCode.NotFound
+    //        };
+    //    }
+
+    //    try
+    //    {
+    //        // Підключення до MongoDB і вибір колекції
+    //        var mongoDatabase = _mongoClient.GetDatabase(linkedDatabase.DatabaseConfigurationId);
+    //        var collection = mongoDatabase.GetCollection<BsonDocument>(collectionName);
+
+    //        // Отримання документів з колекції
+    //        var documents = await collection.Find(Builders<BsonDocument>.Filter.Empty).ToListAsync();
+
+    //        // Експортування в CSV файл
+    //        string tempFilePath = Path.GetTempFileName();
+    //        using (var writer = new StreamWriter(tempFilePath))
+    //        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+    //        {
+    //            if (documents.Any())
+    //            {
+    //                // Запис заголовків CSV
+    //                var keys = documents.First().Names;
+    //                foreach (var key in keys)
+    //                {
+    //                    csv.WriteField(key);
+    //                }
+    //                csv.NextRecord();
+
+    //                // Запис рядків CSV
+    //                foreach (var document in documents)
+    //                {
+    //                    foreach (var key in keys)
+    //                    {
+    //                        csv.WriteField(document.GetValue(key, "").ToString());
+    //                    }
+    //                    csv.NextRecord();
+    //                }
+    //            }
+    //        }
+
+    //        // Завантаження файлу в AWS S3
+
+    //        string keyName = $"{collectionName}.csv";
+    //        await UploadFileToS3Async(tempFilePath, bucketName, keyName);
+
+    //        // Видалення тимчасового файлу
+    //        if (File.Exists(tempFilePath))
+    //        {
+    //            File.Delete(tempFilePath);
+    //        }
+
+    //        return new Success();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return new ErrorResponse
+    //        {
+    //            Message = $"Failed to export collection to S3: {ex.Message}",
+    //            HttpCode = System.Net.HttpStatusCode.InternalServerError
+    //        };
+    //    }
+    //}
+
+    //private async Task<string> UploadFileToS3Async(IFormFile file, string folderName)
+    //{
+    //    var key = $"{folderName}/{file.FileName}";
+    //    using (var stream = file.OpenReadStream())
+    //    {
+    //        var uploadRequest = new TransferUtilityUploadRequest
+    //        {
+    //            InputStream = stream,
+    //            Key = key,
+    //            BucketName = _bucketName,
+    //            ContentType = file.ContentType
+    //        };
+
+    //        var fileTransferUtility = new TransferUtility(_s3Client);
+    //        await fileTransferUtility.UploadAsync(uploadRequest);
+    //    }
+
+    //    return key;
+    //}
 
     private bool ValidateJsonStructure(string collectionType, string jsonData, LinkedDatabase linkedDatabase)
     {

@@ -16,6 +16,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class RecommenderSettingsComponent implements OnInit {
   recommenderSystems: any[] = [];
+  batchSize: number = 32;
+  epoch: number = 10;
+  learningRate: number = 0.01;
+  selectedType: string = 'Content-based'; // Added type selector
+
+  recommenderTypes: string[] = ['Content-based', 'Hybrid', 'RecGAN'];
 
   constructor() {}
 
@@ -24,7 +30,19 @@ export class RecommenderSettingsComponent implements OnInit {
   }
 
   createRecommenderSystem() {
-    console.log('Creating recommender system...');
+    const newSystem = {
+      id: new Date().getTime().toString(),
+      fileName: `System ${this.recommenderSystems.length + 1}`,
+      uploadDate: new Date(),
+      status: 1,
+      batchSize: this.batchSize,
+      epoch: this.epoch,
+      learningRate: this.learningRate,
+      type: this.selectedType // Added to the system configuration
+    };
+
+    this.recommenderSystems.push(newSystem);
+    console.log('Creating recommender system with settings:', newSystem);
   }
 
   loadRecommenderSystems() {
@@ -35,6 +53,7 @@ export class RecommenderSettingsComponent implements OnInit {
   }
 
   deleteRecommenderSystem(id: string) {
-    console.log(`Deleting recommender system with ID: ${id}`);
+    this.recommenderSystems = this.recommenderSystems.filter(system => system.id !== id);
+    console.log(`Deleted recommender system with ID: ${id}`);
   }
 }

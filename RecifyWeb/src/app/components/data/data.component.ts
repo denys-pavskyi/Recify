@@ -27,7 +27,10 @@ export class DataComponent implements OnInit {
   itemColumns: { name: string, type: string }[] = [{ name: '', type: 'String' }];
   dataTypes: string[] = ['String', 'Number', 'Boolean', 'Date', 'Array'];
   linkedDatabase: LinkedDatabase | null = null;
-  apiLinks: { items: string, views?: string, ratings?: string } = { items: '' };
+  apiLinks: { items: string, views?: string, ratings?: string, users: string } = {
+    items: '',
+    users: ''
+  };
 
   constructor(private linkedDatabaseService: LinkedDatabaseService, private authService: AuthService) {}
 
@@ -92,6 +95,7 @@ export class DataComponent implements OnInit {
       const dbId = this.linkedDatabase.id;
 
       this.apiLinks.items = `${baseUrl}?linkedDatabaseId=${dbId}&collectionType=Items`;
+      this.apiLinks.users = `${baseUrl}?linkedDatabaseId=${dbId}&collectionType=Users`;
 
       if (this.linkedDatabase.hasViews) {
         this.apiLinks.views = `${baseUrl}?linkedDatabaseId=${dbId}&collectionType=Views`;

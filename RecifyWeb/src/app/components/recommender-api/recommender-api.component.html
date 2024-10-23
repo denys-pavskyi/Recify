@@ -1,24 +1,35 @@
 <div class="recommender-api-container">
-    <h2>Recommender System API</h2>
-  
-    <div class="form-group">
-      <label for="recommenderSelect">Select Recommender System:</label>
-      <select id="recommenderSelect">
-        <option *ngFor="let recommender of recommenders" [value]="recommender.id">
-          {{ recommender.fileName }}
-        </option>
-      </select>
-    </div>
-  
-    <div class="form-group">
-      <label for="apiLink">API Link:</label>
-      <input
-        type="text"
-        id="apiLink"
-        placeholder="API link will be displayed here"
-        readonly
-      />
-    </div>
-  
-    <button class="fetch-button" (click)="fetchApiLink()">Fetch API Link</button>
+  <h2>Recommender System API</h2>
+
+  <div class="form-group">
+    <label for="recommenderSelect">Select Recommender System:</label>
+    <select id="recommenderSelect" [(ngModel)]="selectedRecommender">
+      <option *ngFor="let recommender of recommenders" [value]="recommender.id">
+        {{ recommender.fileName }}
+      </option>
+    </select>
   </div>
+
+  <div class="form-group">
+    <label for="userIdInput">Enter User ID:</label>
+    <input
+      type="text"
+      id="userIdInput"
+      [(ngModel)]="userId"
+      placeholder="Enter User ID"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="apiLink">API Link:</label>
+    <input
+      type="text"
+      id="apiLink"
+      [value]="apiLink"
+      placeholder="API link will be displayed here"
+      readonly
+    />
+  </div>
+
+  <button class="fetch-button" (click)="fetchApiLink()">Fetch API Link</button>
+</div>
