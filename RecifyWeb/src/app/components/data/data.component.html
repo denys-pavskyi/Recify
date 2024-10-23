@@ -1,13 +1,25 @@
 <div class="data-component-container">
     <h2>Data Management</h2>
   
-    <div *ngIf="!hasDatabase" class="no-database">
-      <p>You don't have a database yet.</p>
+    <!-- Show existing database if it exists -->
+    <div *ngIf="hasDatabase">
+      <h3>Existing Database</h3>
+      <p><strong>Database ID:</strong> {{ linkedDatabase?.id }}</p>
+      <p><strong>Database Link:</strong> {{ linkedDatabase?.databaseLink }}</p>
+  
+      <h4>API Links</h4>
+      <ul>
+        <li><strong>Items:</strong> <a href="{{ apiLinks.items }}" target="_blank">{{ apiLinks.items }}</a></li>
+        <li *ngIf="apiLinks.views"><strong>Views:</strong> <a href="{{ apiLinks.views }}" target="_blank">{{ apiLinks.views }}</a></li>
+        <li *ngIf="apiLinks.ratings"><strong>Ratings:</strong> <a href="{{ apiLinks.ratings }}" target="_blank">{{ apiLinks.ratings }}</a></li>
+      </ul>
+  
+      <button (click)="deleteDatabase()" class="configure-button">Delete Database</button>
     </div>
   
-    <div *ngIf="hasDatabase" class="database-setup">
+    <!-- Show database configuration if none exists -->
+    <div *ngIf="!hasDatabase">
       <h3>Create Tables</h3>
-      
       <div class="form-group compact-checkboxes">
         <label>
           <input type="checkbox" [(ngModel)]="createViewsTable" />

@@ -32,7 +32,7 @@ namespace RecifyAPI.Controllers
 
         [HttpPost("deleteDatabase")]
         [ValidateGuidParsable(nameof(linkedDatabaseId))]
-        public async Task<IActionResult> CreateDatabase(string linkedDatabaseId)
+        public async Task<IActionResult> DeleteDatabase(string linkedDatabaseId)
         {
             await _linkedDatabaseService.DeleteLinkedDatabaseAsync(linkedDatabaseId);
 
