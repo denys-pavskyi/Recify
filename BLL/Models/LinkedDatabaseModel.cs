@@ -19,4 +19,6 @@ public class LinkedDatabaseModel
 
     public string DatabaseConfigurationId { get; set; } = string.Empty;
     public string DatabaseLink { get; set; } = string.Empty;
+
+    public string Structure { get; set; } = string.Empty;
 }

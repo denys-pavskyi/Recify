@@ -1,0 +1,33 @@
+<div class="data-component-container">
+    <h2>Data Management</h2>
+  
+    <div *ngIf="!hasDatabase" class="no-database">
+      <p>You don't have a database yet.</p>
+    </div>
+  
+    <div *ngIf="hasDatabase" class="database-setup">
+      <h3>Create Tables</h3>
+      
+      <div class="form-group compact-checkboxes">
+        <label>
+          <input type="checkbox" [(ngModel)]="createViewsTable" />
+          Create Views Table (optional)
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="createRatingsTable" />
+          Create Ratings Table (optional)
+        </label>
+      </div>
+  
+      <h3>Configure Columns for Items Table</h3>
+      <button class="add-column" (click)="addColumn()">Add Column</button>
+      <div *ngFor="let column of itemColumns; let i = index" class="column-config">
+        <input [(ngModel)]="column.name" placeholder="Column Name" />
+        <select [(ngModel)]="column.type">
+          <option *ngFor="let type of dataTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      <br><br>
+      <button class="configure-button" (click)="generateJson()">Create Database</button>
+    </div>
+  </div>

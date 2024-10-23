@@ -33,4 +33,12 @@ public class LinkedDatabaseRepository: ILinkedDatabaseRepository
 
         return linkedDatabase;
     }
+
+    public async Task<LinkedDatabase?> GetByClientIdAsync(string clientId)
+    {
+        var linkedDatabase = await _dbContext.LinkedDatabases.FirstOrDefaultAsync(ld =>
+            string.Equals(ld.ClientId.ToString(), clientId));
+
+        return linkedDatabase;
+    }
 }

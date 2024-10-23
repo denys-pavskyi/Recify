@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.Interfaces;
+using BLL.Models;
 using DAL.Entities.Enums;
 using DAL.Entities;
 using DAL.UnitOfWork;
@@ -173,6 +174,23 @@ public class LinkedDatabaseService: ILinkedDatabaseService
                 HttpCode = System.Net.HttpStatusCode.InternalServerError
             };
         }
+    }
+
+    public async Task<OneOf<LinkedDatabaseModel, ErrorResponse>> GetLinkedDatabaseByClientIdAsync(string clientId)
+    {
+
+        var linkedDatabase = await _unitOfWork.LinkedDatabaseRepository.GetByClientIdAsync(clientId);
+
+        if (linkedDatabase == null)
+        {
+            return new ErrorResponse
+            {
+                Message = "LinkedDatabase not found",
+                HttpCode = System.Net.HttpStatusCode.NotFound
+            };
+        }
+
+        return _mapper.Map<LinkedDatabaseModel>(linkedDatabase);
     }
 
 

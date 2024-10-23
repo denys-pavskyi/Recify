@@ -3,13 +3,15 @@ import { AuthService } from '../../services/auth-service/auth.service';
 import { Client } from '../../models/client';
 import { CommonModule } from '@angular/common';  
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',

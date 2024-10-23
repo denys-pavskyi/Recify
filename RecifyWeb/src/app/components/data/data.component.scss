@@ -1,0 +1,74 @@
+.data-component-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  
+    h2 {
+      margin-bottom: 20px;
+    }
+  
+    .no-database {
+      margin-bottom: 20px;
+    }
+  
+    .form-group {
+      margin-bottom: 15px;
+  
+      label {
+        display: block;
+      }
+    }
+  
+    .compact-checkboxes {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+  
+      label {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+    }
+  
+    .column-config {
+      margin: 10px 0;
+  
+      input {
+        width: 30%; // Adjusted for better alignment
+        padding: 5px;
+        margin-right: 5px;
+      }
+  
+      select {
+        width: 65%; // Adjusted for better alignment
+        padding: 5px;
+      }
+    }
+  
+    .add-column {
+      background-color: #4A90E2; // Primary color
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #357ABD; // Hover effect
+      }
+    }
+  
+    .configure-button {
+      background-color: #5cb85c; // Green color for action
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #4cae4c; // Darker green on hover
+      }
+    }
+  }

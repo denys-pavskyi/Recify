@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecifyAPI.Helpers;
 using System.Net;
 using BLL.ResponseModels;
+using DAL.Entities;
 
 namespace RecifyAPI.Controllers
 {
@@ -46,6 +47,18 @@ namespace RecifyAPI.Controllers
 
             return response.Match<ActionResult>(
                 _ => Ok("Data added successfully."),
+                error => error.ToActionResult()
+            );
+        }
+
+        [HttpGet("getLinkedDatabaseByClientId")]
+        [ValidateGuidParsable(nameof(clientId))]
+        public async Task<IActionResult> GetLinkedDatabaseByClientId(string clientId)
+        {
+            var response = await _linkedDatabaseService.GetLinkedDatabaseByClientIdAsync(clientId);
+
+            return response.Match<ActionResult>(
+                linkedDatabase => Ok(linkedDatabase),
                 error => error.ToActionResult()
             );
         }

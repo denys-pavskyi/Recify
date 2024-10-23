@@ -1,6 +1,7 @@
 <nav class="navbar">
     <ul class="nav-links">
-      <li *ngIf="isLoggedIn"><a routerLink="/upload-csv">Upload CSV</a></li>
+      <li *ngIf="isLoggedIn"><a routerLink="/data">Data</a></li>
+      <li *ngIf="isLoggedIn"><a routerLink="/upload-csv">Upload CSVs</a></li>
       <li *ngIf="isLoggedIn"><a routerLink="/recommender-settings">Recommender Settings</a></li>
       <li *ngIf="isLoggedIn"><a routerLink="/recommender-testing">Testing</a></li>
       <li *ngIf="isLoggedIn"><a routerLink="/recommender-api">API</a></li>
