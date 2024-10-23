@@ -10,8 +10,8 @@ public class ClientModel
     public string FirstName { get; set; } = string.Empty;
     public string? LastName { get; set; }
 
+    public string LinkedDatabaseId { get; set; } = string.Empty;
 
-    public List<string> LinkedDatabaseIds { get; set; } = new();
     public List<string> UploadedCsvIds { get; set; } = new();
 
     public List<string> RecommenderConfigurationIds { get; set; } = new();

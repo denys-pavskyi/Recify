@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(RecifyDbContext))]
-    partial class RecifyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241022202526_AddedColumnsToLinkedDatabases")]
+    partial class AddedColumnsToLinkedDatabases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +65,11 @@ namespace DAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DatabaseConfigurationId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DatabaseLink")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DatabaseType")
@@ -75,9 +80,6 @@ namespace DAL.Migrations
 
                     b.Property<bool>("HasViews")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Structure")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -165,7 +167,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.LinkedDatabase", b =>
                 {
                     b.HasOne("DAL.Entities.Client", "Client")
-                        .WithMany()
+                        .WithMany("LinkedDatabases")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -216,6 +218,8 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Client", b =>
                 {
+                    b.Navigation("LinkedDatabases");
+
                     b.Navigation("RecommenderConfigurations");
 
                     b.Navigation("UploadedCSVs");

@@ -11,5 +11,14 @@ public class LinkedDatabase: BaseEntity
     public Client? Client { get; set; }
 
     public DatabaseType DatabaseType { get; set; }
-    public string DatabaseCredentials { get; set; } = string.Empty;
+
+    // Configuration of additional tables
+
+    public bool HasViews { get; set; }
+    public bool HasRatings { get; set; }
+
+    public string? DatabaseConfigurationId { get; set; }
+    public string? DatabaseLink { get; set; }
+
+    public string? Structure { get; set; }
 }

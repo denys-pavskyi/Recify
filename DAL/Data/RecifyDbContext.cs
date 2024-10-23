@@ -8,7 +8,7 @@ public class RecifyDbContext: DbContext
 {
     public RecifyDbContext(DbContextOptions<RecifyDbContext> options) : base(options)
     {
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
     }
 
     public DbSet<Client> Clients { get; set; }
@@ -38,5 +38,6 @@ public class RecifyDbContext: DbContext
             .WithOne(u => u.UploadedCsv)
             .HasForeignKey(r => r.UploadedCsvId)
             .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

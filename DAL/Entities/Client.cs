@@ -12,9 +12,7 @@ public class Client: BaseEntity
     public string PasswordHash { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string? LastName { get; set; }
-
-
-    public ICollection<LinkedDatabase> LinkedDatabases { get; set; } = new List<LinkedDatabase>();
+    
     public ICollection<UploadedCSV> UploadedCSVs { get; set; } = new List<UploadedCSV>();
 
     public ICollection<RecommenderConfiguration> RecommenderConfigurations { get; set; } = new List<RecommenderConfiguration>();

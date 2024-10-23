@@ -11,7 +11,6 @@ public class AutomapperProfile : Profile
     {
         CreateMap<Client, ClientModel>()
             .ForMember(cm => cm.RecommenderConfigurationIds, c => c.MapFrom(x => x.RecommenderConfigurations.Select(x => x.Id.ToString())))
-            .ForMember(cm => cm.LinkedDatabaseIds, c => c.MapFrom(x => x.LinkedDatabases.Select(x => x.Id.ToString())))
             .ForMember(cm => cm.UploadedCsvIds, c => c.MapFrom(x => x.UploadedCSVs.Select(x => x.Id.ToString())));
 
 
@@ -23,6 +22,10 @@ public class AutomapperProfile : Profile
             .ForMember(rcm => rcm.RecommenderToUploadedCsvIds, rc => rc.MapFrom(x => x.RecommenderToUploadedCSVs.Select(x => x.Id.ToString())));
 
         CreateMap<RecommenderConfigurationModel, RecommenderConfiguration>();
+
+        CreateMap<LinkedDatabase, LinkedDatabaseModel>()
+            .ReverseMap();
+
 
     }
 
